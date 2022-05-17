@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    
+    <div id="robobackground">
+    <nav class="d-flex justify-content-between align-items-center col-12">
+        <h1 class="text-center">Welcome {{user.first_name}} {{user.last_name}}</h1>
+        <h2 class="text-center">What's in your Collection?</h2>
+        <div class="d-flex col-4 justify-content-around">
+            <a href="/new/collect" class="btn btn-primary">Add New Collection</a>
+            <a href="/logout" class="btn btn-info">Logout</a>
+            
+        </div>
+
+
+
+    </nav>
+    <div class="col-8 mx-auto">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Pass or Buy?</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for collect in collects %}
+                    <tr>
+                        <td>{{collect.name}}</td>
+                        {% if collect.pass_buy == 1 %}
+                        <td>Pass</td>
+                        {% else %}
+                        <td>Buy</td>
+                        {% endif %}
+                        <td>
+                            <a href="/collect/{{collect.id}}">View Review</a>
+                            {% if collect.user_id == session.user_id %}
+                            <a href="/edit/collect/{{collect.id}}">Edit</a>
+                            <a href="/destroy/collect/{{collect.id}}">Delete</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
